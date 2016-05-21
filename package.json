@@ -1,0 +1,28 @@
+{
+  "name": "ravel-github-oauth2-provider",
+  "version": "0.13.0",
+  "author": "Sean McIntyre <s.mcintyre@xverba.ca>",
+  "description": "Github OAuth2 Provider for Ravel Rapid Application Development Framework",
+  "contributors": [
+    {"name": "Sean McIntyre","email": "s.mcintyre@xverba.ca"}
+  ],
+  "main":"ravel-github-oauth2-provider.js",
+  "license": "MIT",
+  "repository" :{
+    "type" : "git",
+    "url" : "https://github.com/raveljs/ravel-github-oauth2-provider.git"
+  },
+  "dependencies": {
+    "github": "0.2.4",
+    "passport-github": "1.1.0"
+  },
+  "peerDependencies": {
+    "ravel": "0.13.x"
+  },
+  "devDependencies": {
+    "eslint": "1.10.3",
+    "gulp": "3.9.0",
+    "gulp-eslint": "1.1.1",
+    "gulp-load-plugins": "1.2.0"
+  }
+}
