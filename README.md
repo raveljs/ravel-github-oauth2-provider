@@ -20,9 +20,11 @@ Requiring the `ravel-github-oauth2-provider` module will register configuration 
 ```json
 {
   "github auth callback url" : "http://localhost:8080",
+  "github auth path": "/auth/github",
+  "github auth callback path": "/auth/github/callback",
   "github client id": "YOUR_CLIENT_ID",
-  "github client secret" : "YOUR_CLIENT_SECRET"
+  "github client secret" : "YOUR_CLIENT_SECRET"  
 }
 ```
 
-Note that `github auth callback url` should be the external url for your application.
+Note that `github auth callback url` should be the external url for your application. Only change `github auth path` and `github auth callback path` if those routes collide with your application - otherwise they will receive the given default values.
