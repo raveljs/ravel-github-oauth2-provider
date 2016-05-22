@@ -1,7 +1,7 @@
 'use strict';
 
 const GitHubStrategy = require('passport-github').Strategy;
-const github = require('github');
+const GitHubApi = require('github');
 const Ravel = require('ravel');
 
 /**
@@ -31,7 +31,8 @@ class GitHubOauth2Provider extends Ravel.AuthorizationProvider {
    * @param koaRouter {Object} An koa-router instance
    * @param passport {Object} A passport.js object
    * @param verify {Function} See passport-github Strategy verify callback.
-   *                          Should be function(accessToken, refreshToken, profile, cb)
+   *                          Should be function(accessToken, refreshToken, profile)
+   *                          which returns a Promise which resolves with the profile
    */
   init(app, passport, verify) {
 
@@ -59,7 +60,7 @@ class GitHubOauth2Provider extends Ravel.AuthorizationProvider {
    * @return {Boolean} true iff this provider handles the given client
    */
   handlesClient(client) {
-    return client === 'github-oauth2'
+    return client === 'github-oauth2';
   }
 
   /**
