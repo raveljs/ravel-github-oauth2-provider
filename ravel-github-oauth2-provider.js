@@ -103,11 +103,11 @@ module.exports = function(ravelInstance) {
   ravelInstance.set('authorization providers', providers);
 
   // required github parameters
-  ravelInstance.registerSimpleParameter(`github auth callback url`, true, 'http://localhost:8080');
-  ravelInstance.registerSimpleParameter(`github auth path`, true, '/auth/github');
-  ravelInstance.registerSimpleParameter(`github auth callback path`, true, '/auth/github/callback');
-  ravelInstance.registerSimpleParameter(`github client id`, true);
-  ravelInstance.registerSimpleParameter(`github client secret`, true);
+  ravelInstance.registerParameter(`github auth callback url`, true, 'http://localhost:8080');
+  ravelInstance.registerParameter(`github auth path`, true, '/auth/github');
+  ravelInstance.registerParameter(`github auth callback path`, true, '/auth/github/callback');
+  ravelInstance.registerParameter(`github client id`, true);
+  ravelInstance.registerParameter(`github client secret`, true);
 
   ravelInstance.once('pre listen', () => {
     ravelInstance.log.debug('Using GitHub OAuth2 provider');
