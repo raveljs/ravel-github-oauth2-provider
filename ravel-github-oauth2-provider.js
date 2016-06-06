@@ -7,7 +7,7 @@ const Ravel = require('ravel');
 /**
  * A Ravel AuthorizationProvider for GitHub OAuth2.0
  */
-class GitHubOauth2Provider extends Ravel.AuthorizationProvider {
+class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
 
   constructor(ravelInstance) {
     super('github-oauth2');
@@ -98,9 +98,9 @@ module.exports = function(ravelInstance) {
   const githubProvider = new GitHubOauth2Provider(ravelInstance);
 
   // register github as an auth provider
-  const providers = ravelInstance.get('authorization providers');
+  const providers = ravelInstance.get('authentication providers');
   providers.push(githubProvider);
-  ravelInstance.set('authorization providers', providers);
+  ravelInstance.set('authentication providers', providers);
 
   // required github parameters
   ravelInstance.registerParameter(`github auth callback url`, true, 'http://localhost:8080');
