@@ -7,8 +7,10 @@
 *app.js*
 ```javascript
 const app = new require('ravel')();
-require('ravel-github-oauth2-provder')(app);
-
+const GitHubProvider = require('ravel-github-oauth2-provider');
+new GitHubProvider(app);
+// ... other providers and parameters
+app.init();
 // ... the rest of your Ravel app
 ```
 
@@ -36,19 +38,32 @@ You'll also need to implement an `@authconfig` module like this:
 'use strict';
 
 const Ravel = require('ravel');
+const inject = Ravel.inject;
 const Module = Ravel.Module;
 const authconfig = Module.authconfig;
 
 @authconfig
+@inject('user-profiles')
 class AuthConfig extends Module {
-  getUserById(userId) {
-    // TODO hit redis to get access token, then hit github API or redis to get profile object.
-    return Promise.resolve({id: userId, username: 'Ghnuberath'});
+  constructor(userProfiles) {
+    this.userProfiles = userProfiles;
   }
-
-  verifyCredentials(accessToken, refreshToken, profile) {
-    // TODO store accessToken and profile if we want to, in session (i.e. redis)
-    return Promise.resolve(profile);
+  serializeUser(profile) {
+    // serialize profile to session using the id field
+    return Promise.resolve(profile.id);
+  }
+  deserializeUser(id) {
+    // retrieve profile from database using id from session
+    return this.userProfiles.getProfile(id);
+  }
+  verify(providerName, ...args) {
+    if (providerName === 'github-oauth2') {
+      const accessToken = args[0];
+      const refreshToken = args[1];
+      const profile = args[2];
+      // TODO something more complex, such as using/storing tokens
+      return Promise.resolve(profile);
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 {
+  "version": "0.17.0",
   "name": "ravel-github-oauth2-provider",
-  "version": "0.15.0",
   "author": "Sean McIntyre <s.mcintyre@xverba.ca>",
   "description": "Github OAuth2 Provider for Ravel Rapid Application Development Framework",
   "contributors": [
@@ -17,7 +17,7 @@
     "passport-github": "1.1.0"
   },
   "peerDependencies": {
-    "ravel": "0.15.x"
+    "ravel": "0.17.x"
   },
   "devDependencies": {
     "eslint": "2.8.0",

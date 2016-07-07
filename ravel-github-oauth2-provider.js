@@ -10,7 +10,7 @@ const Ravel = require('ravel');
 class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
 
   constructor(ravelInstance) {
-    super('github-oauth2');
+    super();
     this.github = new GitHubApi({
       version: '3.0.0',
       protocol: 'https',
@@ -20,9 +20,16 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
         'user-agent': 'raveljs' // GitHub is happy with a unique user agent
       }
     });
-    this.ravelInstance = ravelInstance;
-    this.log = ravelInstance.log.getLogger(this.name);
-    this.ApplicationError = ravelInstance.ApplicationError;
+
+    ravelInstance.registerParameter('github auth callback url', true, 'http://localhost:8080');
+    ravelInstance.registerParameter('github auth path', true, '/auth/github');
+    ravelInstance.registerParameter('github auth callback path', true, '/auth/github/callback');
+    ravelInstance.registerParameter('github client id', true);
+    ravelInstance.registerParameter('github client secret', true);
+  }
+
+  get name() {
+    return 'github-oauth2';
   }
 
   /**
@@ -89,27 +96,4 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
 
 }
 
-/**
- * Add a new GitHubOauth2Provider to a Ravel instance
- *
- * @param {Object} ravelInstance a reference to a Ravel instance
- */
-module.exports = function(ravelInstance) {
-  const githubProvider = new GitHubOauth2Provider(ravelInstance);
-
-  // register github as an auth provider
-  const providers = ravelInstance.get('authentication providers');
-  providers.push(githubProvider);
-  ravelInstance.set('authentication providers', providers);
-
-  // required github parameters
-  ravelInstance.registerParameter(`github auth callback url`, true, 'http://localhost:8080');
-  ravelInstance.registerParameter(`github auth path`, true, '/auth/github');
-  ravelInstance.registerParameter(`github auth callback path`, true, '/auth/github/callback');
-  ravelInstance.registerParameter(`github client id`, true);
-  ravelInstance.registerParameter(`github client secret`, true);
-
-  ravelInstance.once('pre listen', () => {
-    ravelInstance.log.debug('Using GitHub OAuth2 provider');
-  });
-};
+module.exports = GitHubOauth2Provider;
