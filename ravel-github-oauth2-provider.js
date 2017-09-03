@@ -10,7 +10,7 @@ const Ravel = require('ravel');
 class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
 
   constructor(ravelInstance) {
-    super();
+    super(ravelInstance);
     this.github = new GitHubApi({
       version: '3.0.0',
       protocol: 'https',
@@ -26,6 +26,7 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
     ravelInstance.registerParameter('github auth callback path', true, '/auth/github/callback');
     ravelInstance.registerParameter('github client id', true);
     ravelInstance.registerParameter('github client secret', true);
+    ravelInstance.registerParameter('github scope', false, '');
   }
 
   get name() {
@@ -42,11 +43,12 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
    *                          which returns a Promise which resolves with the profile
    */
   init(app, passport, verify) {
-
+    console.log('Path:', `${this.ravelInstance.get('github auth callback url')}${this.ravelInstance.get('github auth callback path')}`);
     passport.use(new GitHubStrategy({
       clientID: this.ravelInstance.get('github client id'),
       clientSecret: this.ravelInstance.get('github client secret'),
-      callbackURL: `${this.ravelInstance.get('github auth callback url')}${this.ravelInstance.get('github auth callback path')}`
+      callbackURL: `${this.ravelInstance.get('github auth callback url')}${this.ravelInstance.get('github auth callback path')}`,
+      scope: this.ravelInstance.get('github scope')
     }, verify));
 
 
@@ -86,7 +88,7 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
           token: credential
         });
         this.github.user.get({}, (err, result) => {
-          if (err) {reject(err);} else {resolve(result);}
+          if (err) { reject(err); } else { resolve(result); }
         });
       } else {
         reject(new this.ApplicationError.IllegalValue(`github-oauth2 provider cannot handle client ${client}`));
