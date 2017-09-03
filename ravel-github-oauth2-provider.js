@@ -43,7 +43,6 @@ class GitHubOauth2Provider extends Ravel.AuthenticationProvider {
    *                          which returns a Promise which resolves with the profile
    */
   init(app, passport, verify) {
-    console.log('Path:', `${this.ravelInstance.get('github auth callback url')}${this.ravelInstance.get('github auth callback path')}`);
     passport.use(new GitHubStrategy({
       clientID: this.ravelInstance.get('github client id'),
       clientSecret: this.ravelInstance.get('github client secret'),
