@@ -25,7 +25,8 @@ Requiring the `ravel-github-oauth2-provider` module will register configuration 
   "github auth path": "/auth/github",
   "github auth callback path": "/auth/github/callback",
   "github client id": "YOUR_CLIENT_ID",
-  "github client secret" : "YOUR_CLIENT_SECRET"  
+  "github client secret" : "YOUR_CLIENT_SECRET",
+  "github scope": "optional comma-separated list of scopes here"
 }
 ```
 
